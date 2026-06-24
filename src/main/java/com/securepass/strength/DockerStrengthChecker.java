@@ -10,24 +10,31 @@ public class DockerStrengthChecker implements StrengthChecker {
 
         try {
 
-            ProcessBuilder pb = new ProcessBuilder(
-                    "docker", "run", "--rm",
-                    "zxcvbn-check",
-                    password
-            );
+            ProcessBuilder pb = new ProcessBuilder("docker", "run", "zxcvbn-check", password);
+            pb.redirectErrorStream(true);
 
             Process process = pb.start();
 
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
+                new InputStreamReader(process.getInputStream())
             );
 
-            String line = reader.readLine();
+            String output = reader.readLine();
             process.waitFor();
 
-            if (line == null) return "Erreur";
+            if (output == null) {
+                return "Erreur";
+            }
 
-            int score = Integer.parseInt(line.trim());
+            output = output.trim(); // IMPORTANT 🔥
+
+            int score;
+
+            try {
+                score = Integer.parseInt(output);
+            } catch (Exception e) {
+                return "Erreur";
+            }
 
             return switch (score) {
                 case 0 -> "Très faible";

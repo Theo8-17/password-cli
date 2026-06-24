@@ -1,3 +1,6 @@
+out/
+*.class
+
 # Compiled class file
 *.class
 
