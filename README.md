@@ -62,6 +62,7 @@ java -cp out main.java.com.securepass.Main --length=14 --no-lower --symbols
 → xP9!kLm2ZqT8  [Fort]
 → a8#Qw9LpXz12  [Très fort]
 → mN4@kP9vBx01  [Moyen]
+
 ```
 
 🧪 Tester Docker directement
