@@ -4,6 +4,7 @@ import main.java.com.securepass.generator.PasswordGenerator;
 import main.java.com.securepass.model.PasswordOptions;
 import main.java.com.securepass.strength.LocalStrengthChecker;
 import main.java.com.securepass.strength.StrengthChecker;
+import main.java.com.securepass.strength.StrengthService;
 
 import java.util.List;
 
@@ -29,9 +30,9 @@ public class Main {
         PasswordGenerator generator = new PasswordGenerator();
         List<String> passwords = generator.generate(options);
 
-        // Analyse locale de la force (fallback avant Docker)
-        StrengthChecker checker = new LocalStrengthChecker();
-
+        // Analyse locale de la force (fallback avec Docker)
+        StrengthService checker = new StrengthService(false);
+        
         // Header propre CLI
         System.out.println("\n===================================");
         System.out.println("   🔐 PASSWORD GENERATOR TOOL");
@@ -49,8 +50,8 @@ public class Main {
 
         // Affichage des mots de passe + score
         for (String pwd : passwords) {
-            String strength = checker.checkStrength(pwd);
-            System.out.println("→ " + pwd + "  [" + strength + "]");
+            String strength = checker.check(pwd);
+            System.out.println("→ " + pwd + " [" + strength + "]");
         }
 
         System.out.println("\n===================================\n");
