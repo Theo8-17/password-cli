@@ -45,15 +45,15 @@ docker build -t zxcvbn-check docker/zxcvbn
 ## Utilisation (EXEMPLES)
 🔹 Générer 1 mot de passe simple
 ```bash
-java -cp out com.securepass.Main --length=12
+java -cp out main.java.com.securepass.Main --length=12
 ```
 🔹 Générer 5 mots de passe sécurisés avec symboles
 ```bash
-java -cp out com.securepass.Main --length=16 --count=5 --symbols
+java -cp out main.java.com.securepass.Main --length=16 --count=5 --symbols
 ```
 🔹 Activer uniquement majuscules + chiffres
 ```bash
-java -cp out com.securepass.Main --length=14 --no-lower --symbols
+java -cp out main.java.com.securepass.Main --length=14 --no-lower --symbols
 ```
 🔹 Exemple de sortie
 ```bash
@@ -70,5 +70,5 @@ docker run zxcvbn-check "Test123!"
 ```
 ❓ Help command (si tu veux aller plus loin)
 ```bash
-java -cp out com.securepass.Main --help
+java -cp out main.java.com.securepass.Main --help
 ```
