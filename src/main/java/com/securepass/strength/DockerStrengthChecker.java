@@ -1,27 +1,44 @@
 package main.java.com.securepass.strength;
 
-/**
- * Implémentation future utilisant un conteneur Docker
- * pour analyser la robustesse des mots de passe.
- *
- * Cette classe remplacera progressivement LocalStrengthChecker
- * dans une approche DevOps.
- */
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class DockerStrengthChecker implements StrengthChecker {
 
     @Override
     public String checkStrength(String password) {
 
-        // POUR L’INSTANT : simulation (placeholder DevOps)
+        try {
 
-        // Plus tard :
-        // - appel Docker via ProcessBuilder
-        // - envoi du password
-        // - récupération du score
+            ProcessBuilder pb = new ProcessBuilder(
+                    "docker", "run", "--rm",
+                    "zxcvbn-check",
+                    password
+            );
 
-        if (password.length() < 8) return "Très faible";
-        if (password.length() < 12) return "Faible";
+            Process process = pb.start();
 
-        return "Fort (Docker simulé)";
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream())
+            );
+
+            String line = reader.readLine();
+            process.waitFor();
+
+            if (line == null) return "Erreur";
+
+            int score = Integer.parseInt(line.trim());
+
+            return switch (score) {
+                case 0 -> "Très faible";
+                case 1 -> "Faible";
+                case 2 -> "Moyen";
+                case 3 -> "Fort";
+                default -> "Très fort";
+            };
+
+        } catch (Exception e) {
+            return "Erreur Docker";
+        }
     }
 }
