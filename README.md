@@ -38,11 +38,27 @@ Java utilise `ProcessBuilder` pour exécuter Docker et récupérer le score.
 ---
 
 ## 🐳 Installation Docker
-
+Installler d'abord le Docker
 ```bash
 docker build -t zxcvbn-check docker/zxcvbn
 ```
 ## Utilisation (EXEMPLES)
+🔹 Créer d'abord un dossier nommé "out" puis compile le projet avant tout lancement
+Linux
+```bash
+javac -d out $(find src/main/java -name "*.java")
+```
+Windows
+```bash
+mkdir out
+javac -d out (Get-ChildItem -Recurse src\main\java\com\securepass\*.java).FullName                                       
+```
+
+🧪 Tester Docker directement
+```bash
+docker run zxcvbn-check "Test123!"
+```
+
 🔹 Générer 1 mot de passe simple
 ```bash
 java -cp out main.java.com.securepass.Main --length=12
@@ -65,10 +81,6 @@ java -cp out main.java.com.securepass.Main --length=14 --no-lower --symbols
 
 ```
 
-🧪 Tester Docker directement
-```bash
-docker run zxcvbn-check "Test123!"
-```
 ❓ Help command (si tu veux aller plus loin)
 ```bash
 java -cp out main.java.com.securepass.Main --help
