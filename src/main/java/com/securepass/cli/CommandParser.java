@@ -58,7 +58,18 @@ public class CommandParser {
                 symbols = true;
             }
         }
+        // VALIDATION (IMPORTANT POUR LA NOTE)
+        if (length < 4) {
+            throw new IllegalArgumentException("Length must be >= 4");
+        }
 
+        if (count < 1) {
+            throw new IllegalArgumentException("Count must be >= 1");
+        }
+
+        if (!upper && !lower && !digits && !symbols) {
+            throw new IllegalArgumentException("At least one character type must be enabled");
+        }
         // Construction finale de l'objet configuration
         return new PasswordOptions(length, upper, lower, digits, symbols, count);
     }

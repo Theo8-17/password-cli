@@ -23,37 +23,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Lecture des options CLI
-        PasswordOptions options = CommandParser.parse(args);
+       try {
+            PasswordOptions options = CommandParser.parse(args);
 
-        // Génération des mots de passe
-        PasswordGenerator generator = new PasswordGenerator();
-        List<String> passwords = generator.generate(options);
+            PasswordGenerator generator = new PasswordGenerator();
+            List<String> passwords = generator.generate(options);
 
-        // Analyse locale de la force (fallback avec Docker)
-        StrengthService checker = new StrengthService(false);
-        
-        // Header propre CLI
-        System.out.println("\n===================================");
-        System.out.println("   🔐 PASSWORD GENERATOR TOOL");
-        System.out.println("===================================\n");
+            StrengthService checker = new StrengthService(true);
 
-        System.out.println("📌 Paramètres :");
-        System.out.println("- Longueur : " + options.length);
-        System.out.println("- Majuscules : " + options.useUpper);
-        System.out.println("- Minuscules : " + options.useLower);
-        System.out.println("- Chiffres : " + options.useDigits);
-        System.out.println("- Symboles : " + options.useSymbols);
-        System.out.println("- Nombre : " + options.count);
+            System.out.println("\n🔐 PASSWORD GENERATOR\n");
 
-        System.out.println("\n🔐 Résultats :\n");
+            for (String pwd : passwords) {
+                System.out.println("→ " + pwd + " [" + checker.check(pwd) + "]");
+            }
 
-        // Affichage des mots de passe + score
-        for (String pwd : passwords) {
-            String strength = checker.check(pwd);
-            System.out.println("→ " + pwd + " [" + strength + "]");
+        } catch (Exception e) {
+            System.out.println("❌ Erreur: " + e.getMessage());
+            System.out.println("Usage: --length=16 --count=5 --symbols");
         }
-
-        System.out.println("\n===================================\n");
     }
 }

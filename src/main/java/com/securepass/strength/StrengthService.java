@@ -12,12 +12,17 @@ public class StrengthService {
     private final StrengthChecker checker;
 
     public StrengthService(boolean useDocker) {
-
-        if (useDocker) {
-            this.checker = new DockerStrengthChecker();
-        } else {
-            this.checker = new LocalStrengthChecker();
+        StrengthChecker checkerLocal;
+        try {
+            if (useDocker) {
+                checkerLocal = new DockerStrengthChecker();
+            } else {
+                checkerLocal = new LocalStrengthChecker();
+            }
+        } catch (Exception e) {
+            checkerLocal = new LocalStrengthChecker();
         }
+        this.checker = checkerLocal;
     }
 
     public String check(String password) {
